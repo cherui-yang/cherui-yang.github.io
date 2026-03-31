@@ -1,0 +1,33 @@
+site_name: GDUPT-s-CheriY
+site_url: https://cherui-yang.github.io/my-blog/
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant        # 即时加载
+    - navigation.tracking       # 地址栏跟踪
+    - navigation.tabs           # 顶部标签栏
+    - navigation.top            # 返回顶部按钮
+    - content.code.copy         # 代码块复制按钮
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: 切换至深色模式
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: 切换至亮色模式
+
+markdown_extensions:
+  - pymdownx.arithmatex:        # 数学公式支持
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences         # 代码块增强
+  - attr_list                    # 图片属性
+  - md_in_html                   # HTML内Markdown
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
