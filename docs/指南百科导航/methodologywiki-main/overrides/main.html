@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ config.site_name }}",
+    "url": "{{ config.site_url }}",
+    "description": "{{ config.site_description }}",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ config.site_url }}search/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MethodologyWiki",
+    "url": "{{ config.site_url }}",
+    "logo": "{{ config.site_url }}assets/logo.png",
+    "sameAs": [
+      "{{ config.repo_url }}"
+    ]
+  }
+  </script>
+
+  <!-- SLS Web Tracking (Async, Non-blocking) -->
+  <script>
+  (function() {
+    'use strict';
+    try {
+      // --- Helper: generate random ID ---
+      function genId() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0;
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+      }
+
+      // --- Visitor ID (persistent across sessions) ---
+      var visitorId;
+      try {
+        visitorId = localStorage.getItem('_sls_vid');
+        if (!visitorId) { visitorId = genId(); localStorage.setItem('_sls_vid', visitorId); }
+      } catch(e) { visitorId = genId(); }
+
+      // --- Session ID (per browser session) ---
+      var sessionId;
+      try {
+        sessionId = sessionStorage.getItem('_sls_sid');
+        if (!sessionId) { sessionId = genId(); sessionStorage.setItem('_sls_sid', sessionId); }
+      } catch(e) { sessionId = genId(); }
+
+      // --- Parse site language from URL path ---
+      var pathParts = location.pathname.split('/').filter(Boolean);
+      var knownLangs = ['zh','es','ja','ko','ru','fr','de','pt','nl','vi','sv'];
+      var siteLang = (pathParts.length > 0 && knownLangs.indexOf(pathParts[0]) !== -1) ? pathParts[0] : 'en';
+
+      // --- Parse category from URL path ---
+      var category = '';
+      var catIndex = (siteLang === 'en') ? 1 : 2;
+      if (pathParts.length > catIndex) { category = decodeURIComponent(pathParts[catIndex]); }
+
+      // --- Build tracking params ---
+      var params = {
+        APIVersion: '0.6.0',
+        page_url: location.href,
+        page_path: location.pathname,
+        page_title: document.title || '',
+        referrer: document.referrer || '',
+        user_agent: navigator.userAgent || '',
+        screen_resolution: (screen.width || 0) + 'x' + (screen.height || 0),
+        language: navigator.language || '',
+        site_lang: siteLang,
+        timestamp: String(Date.now()),
+        session_id: sessionId,
+        visitor_id: visitorId,
+        event_type: 'pageview',
+        category: category
+      };
+
+      // --- Encode params ---
+      var qs = Object.keys(params).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+      }).join('&');
+
+      var trackUrl = 'https://qrshare.cn-shanghai.log.aliyuncs.com/logstores/wise/track_ua.gif?' + qs;
+
+      // --- Send via GET (non-blocking, fire-and-forget) ---
+      var img = new Image(1, 1);
+      img.src = trackUrl;
+    } catch(e) {
+      // Silently fail — tracking should never break the page
+    }
+  })();
+  </script>
+{% endblock %}

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WisdomWiki Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0f0f1a;
+      --bg-secondary: #16162a;
+      --bg-card: #1c1c36;
+      --bg-card-hover: #24243e;
+      --border: rgba(255, 255, 255, 0.06);
+      --text-primary: #e8e8f0;
+      --text-secondary: #9898b8;
+      --text-muted: #6868a0;
+      --accent-blue: #4f8cff;
+      --accent-purple: #a855f7;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --accent-cyan: #22d3ee;
+      --gradient-north-star: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      --gradient-blue: linear-gradient(135deg, #3b82f6, #6366f1);
+      --gradient-green: linear-gradient(135deg, #10b981, #34d399);
+      --gradient-amber: linear-gradient(135deg, #f59e0b, #fbbf24);
+      --gradient-rose: linear-gradient(135deg, #e11d48, #fb7185);
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+      --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- Background decoration --- */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+      z-index: -1;
+      animation: bgShift 20s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-5%, -3%); }
+    }
+
+    /* --- Header --- */
+    .header {
+      padding: 32px 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-left h1 {
+      font-size: 26px;
+      font-weight: 800;
+      background: var(--gradient-north-star);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .header-left p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .header-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .header-controls button {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .header-controls button:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+    .header-controls button.active {
+      background: var(--gradient-blue);
+      color: #fff;
+      border-color: transparent;
+    }
+    .demo-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--accent-amber);
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+
+    /* --- Grid --- */
+    .dashboard {
+      padding: 0 40px 40px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    /* --- Card --- */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* --- North Star --- */
+    .north-star {
+      grid-column: span 12;
+      background: var(--bg-card);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      padding: 32px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .north-star::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-north-star);
+    }
+    .north-star::after {
+      content: '⭐';
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 48px;
+      opacity: 0.15;
+    }
+    .ns-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-purple);
+      margin-bottom: 8px;
+    }
+    .ns-title {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .ns-value {
+      font-size: 56px;
+      font-weight: 800;
+      background: var(--gradient-north-star);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .ns-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* --- KPI cards --- */
+    .kpi { grid-column: span 3; }
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .kpi-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .kpi-icon.blue { background: rgba(79, 140, 255, 0.15); }
+    .kpi-icon.green { background: rgba(52, 211, 153, 0.15); }
+    .kpi-icon.amber { background: rgba(251, 191, 36, 0.15); }
+    .kpi-icon.rose { background: rgba(251, 113, 133, 0.15); }
+
+    /* --- Chart grid items --- */
+    .chart-full { grid-column: span 12; min-height: 340px; }
+    .chart-half { grid-column: span 6; min-height: 320px; }
+    .chart-third { grid-column: span 4; min-height: 320px; }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 260px;
+    }
+
+    /* --- Table --- */
+    .table-card { grid-column: span 6; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 10px 12px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { color: var(--text-primary); background: rgba(255,255,255,0.02); }
+    .data-table .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .rank-1 { background: var(--gradient-north-star); }
+    .rank-2 { background: var(--gradient-blue); }
+    .rank-3 { background: var(--gradient-green); }
+    .rank-other { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+    .pv-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gradient-blue);
+      margin-top: 4px;
+      transition: width 0.6s ease;
+    }
+
+    /* --- Loading --- */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s;
+    }
+    .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent-purple);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* --- Responsive --- */
+    @media (max-width: 1200px) {
+      .kpi { grid-column: span 6; }
+      .chart-half, .table-card { grid-column: span 12; }
+      .chart-third { grid-column: span 6; }
+    }
+    @media (max-width: 768px) {
+      .header { padding: 20px; }
+      .dashboard { padding: 0 20px 20px; gap: 14px; }
+      .kpi { grid-column: span 12; }
+      .chart-third { grid-column: span 12; }
+      .ns-value { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<header class="header">
+  <div class="header-left">
+    <h1>WisdomWiki Analytics <span class="demo-badge" id="demoBadge" style="display:none">DEMO DATA</span></h1>
+    <p id="headerSub">methodologywiki.com — Real-time analytics powered by Alibaba Cloud SLS</p>
+  </div>
+  <div class="header-controls">
+    <button data-days="1">Today</button>
+    <button data-days="7" class="active">7 Days</button>
+    <button data-days="30">30 Days</button>
+    <button data-days="90">90 Days</button>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <!-- North Star Metric -->
+  <section class="card north-star" id="northStar">
+    <div class="ns-label">⭐ North Star Metric</div>
+    <div class="ns-title">Weekly Active Readers (WAR) — unique visitors in the past 7 days</div>
+    <div class="ns-value" id="warValue">—</div>
+    <div class="ns-sub" id="warSub"></div>
+  </section>
+
+  <!-- KPI Cards -->
+  <div class="card kpi" id="kpiPV">
+    <div class="kpi-icon blue">📄</div>
+    <div class="kpi-value" id="pvValue">—</div>
+    <div class="kpi-label">Page Views</div>
+  </div>
+  <div class="card kpi" id="kpiUV">
+    <div class="kpi-icon green">👤</div>
+    <div class="kpi-value" id="uvValue">—</div>
+    <div class="kpi-label">Unique Visitors</div>
+  </div>
+  <div class="card kpi" id="kpiSess">
+    <div class="kpi-icon amber">🔗</div>
+    <div class="kpi-value" id="sessValue">—</div>
+    <div class="kpi-label">Sessions</div>
+  </div>
+  <div class="card kpi" id="kpiBounce">
+    <div class="kpi-icon rose">↩️</div>
+    <div class="kpi-value" id="bounceValue">—</div>
+    <div class="kpi-label">Bounce Rate</div>
+  </div>
+
+  <!-- Traffic Trend -->
+  <div class="card chart-full">
+    <div class="card-title">Traffic Trend</div>
+    <div class="chart-container"><canvas id="trendChart"></canvas></div>
+  </div>
+
+  <!-- Top Pages -->
+  <div class="card table-card">
+    <div class="card-title">Top Pages</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Page</th><th>Views</th></tr></thead>
+      <tbody id="pagesTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Language Distribution -->
+  <div class="card table-card">
+    <div class="card-title">Language Distribution</div>
+    <div class="chart-container"><canvas id="langChart"></canvas></div>
+  </div>
+
+  <!-- Referrer Sources -->
+  <div class="card chart-third">
+    <div class="card-title">Referrer Sources</div>
+    <div class="chart-container"><canvas id="refChart"></canvas></div>
+  </div>
+
+  <!-- Category Heatmap -->
+  <div class="card chart-third">
+    <div class="card-title">Category Popularity</div>
+    <div class="chart-container"><canvas id="catChart"></canvas></div>
+  </div>
+
+  <!-- Hourly Distribution -->
+  <div class="card chart-third">
+    <div class="card-title">Hourly Distribution</div>
+    <div class="chart-container"><canvas id="hourChart"></canvas></div>
+  </div>
+
+  <!-- Device / Resolution -->
+  <div class="card chart-half">
+    <div class="card-title">Screen Resolution</div>
+    <div class="chart-container"><canvas id="deviceChart"></canvas></div>
+  </div>
+
+  <!-- Avg Pages / Session card -->
+  <div class="card chart-half" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="card-title" style="text-align:center;">Avg Pages per Session</div>
+    <div style="font-size:64px;font-weight:800;background:var(--gradient-green);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="avgPagesValue">—</div>
+    <div style="color:var(--text-muted);margin-top:8px;font-size:14px;">pages / session</div>
+  </div>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // --- State ---
+  let currentDays = 7;
+  const charts = {};
+
+  // --- Helpers ---
+  function fmt(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return String(n);
+  }
+
+  async function api(path) {
+    const sep = path.includes('?') ? '&' : '?';
+    const res = await fetch(`/api/${path}${sep}days=${currentDays}`);
+    return res.json();
+  }
+
+  // --- Chart.js defaults ---
+  Chart.defaults.color = '#9898b8';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.plugins.legend.display = false;
+
+  const COLORS = [
+    '#6366f1','#a855f7','#ec4899','#f43f5e','#f97316',
+    '#fbbf24','#34d399','#22d3ee','#3b82f6','#8b5cf6',
+    '#14b8a6','#e879f9'
+  ];
+
+  function gradient(ctx, c1, c2) {
+    const g = ctx.createLinearGradient(0, 0, 0, 260);
+    g.addColorStop(0, c1);
+    g.addColorStop(1, c2);
+    return g;
+  }
+
+  // --- Render functions ---
+  async function loadOverview() {
+    const d = await api('overview');
+    // Demo badge
+    const badge = document.getElementById('demoBadge');
+    // Check if we are in demo mode (server returns demo-level numbers on first load)
+    // We detect demo mode by checking if PV is exactly demo value
+    if (d.pv === 12847) { badge.style.display = 'inline-block'; }
+
+    document.getElementById('warValue').textContent = fmt(d.war);
+    document.getElementById('warSub').textContent = `Based on last 7 days · ${d.war.toLocaleString()} unique readers`;
+    document.getElementById('pvValue').textContent = fmt(d.pv);
+    document.getElementById('uvValue').textContent = fmt(d.uv);
+    document.getElementById('sessValue').textContent = fmt(d.sessions);
+    document.getElementById('bounceValue').textContent = d.bounce_rate + '%';
+    document.getElementById('avgPagesValue').textContent = d.avg_pages_per_session.toFixed(2);
+  }
+
+  async function loadTrend() {
+    const data = await api('trends');
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    if (charts.trend) charts.trend.destroy();
+
+    const labels = data.map(r => r.date);
+    charts.trend = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Page Views',
+            data: data.map(r => r.pv),
+            borderColor: '#6366f1',
+            backgroundColor: gradient(ctx, 'rgba(99,102,241,0.25)', 'rgba(99,102,241,0)'),
+            fill: true,
+            tension: 0.4,
+            borderWidth: 2.5,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+          },
+          {
+            label: 'Unique Visitors',
+            data: data.map(r => r.uv),
+            borderColor: '#a855f7',
+            backgroundColor: gradient(ctx, 'rgba(168,85,247,0.15)', 'rgba(168,85,247,0)'),
+            fill: true,
+            tension: 0.4,
+            borderWidth: 2.5,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: true, position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20 } },
+          tooltip: { backgroundColor: '#1c1c36', titleColor: '#e8e8f0', bodyColor: '#9898b8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, padding: 12, cornerRadius: 8 }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
+          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmt(v) } }
+        }
+      }
+    });
+  }
+
+  async function loadPages() {
+    const data = await api('pages');
+    const tbody = document.getElementById('pagesTableBody');
+    const maxPV = data.length > 0 ? data[0].pv : 1;
+    tbody.innerHTML = data.slice(0, 10).map((r, i) => {
+      const rankClass = i < 3 ? `rank-${i+1}` : 'rank-other';
+      const title = r.title || r.page.split('/').filter(Boolean).pop().replace(/-/g, ' ');
+      const pct = Math.round(r.pv / maxPV * 100);
+      return `<tr>
+        <td><span class="rank ${rankClass}">${i+1}</span></td>
+        <td>
+          <div style="font-weight:500;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;" title="${r.page}">${title}</div>
+          <div class="pv-bar" style="width:${pct}%"></div>
+        </td>
+        <td style="font-weight:600;color:var(--accent-blue);">${fmt(r.pv)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function loadLanguages() {
+    const data = await api('languages');
+    const ctx = document.getElementById('langChart').getContext('2d');
+    if (charts.lang) charts.lang.destroy();
+
+    charts.lang = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: data.map(r => r.label || r.lang),
+        datasets: [{
+          data: data.map(r => r.pv),
+          backgroundColor: COLORS.slice(0, data.length),
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+          legend: { display: true, position: 'right', labels: { usePointStyle: true, pointStyle: 'circle', padding: 10, font: { size: 11 } } },
+          tooltip: { backgroundColor: '#1c1c36', padding: 10, cornerRadius: 8 }
+        }
+      }
+    });
+  }
+
+  async function loadReferrers() {
+    const data = await api('referrers');
+    const ctx = document.getElementById('refChart').getContext('2d');
+    if (charts.ref) charts.ref.destroy();
+
+    charts.ref = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(r => r.source),
+        datasets: [{
+          data: data.map(r => r.count),
+          backgroundColor: COLORS.slice(0, data.length),
+          borderRadius: 6,
+          barThickness: 24,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: { tooltip: { backgroundColor: '#1c1c36', padding: 10, cornerRadius: 8 } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmt(v) } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  async function loadCategories() {
+    const data = await api('categories');
+    const ctx = document.getElementById('catChart').getContext('2d');
+    if (charts.cat) charts.cat.destroy();
+
+    charts.cat = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(r => r.category.replace(/ & /g, '\n& ')),
+        datasets: [{
+          data: data.map(r => r.pv),
+          backgroundColor: data.map((_, i) => COLORS[i % COLORS.length]),
+          borderRadius: 6,
+          barThickness: 28,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { tooltip: { backgroundColor: '#1c1c36', padding: 10, cornerRadius: 8 } },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxRotation: 45, font: { size: 10 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmt(v) } }
+        }
+      }
+    });
+  }
+
+  async function loadHourly() {
+    const data = await api('hourly');
+    const ctx = document.getElementById('hourChart').getContext('2d');
+    if (charts.hour) charts.hour.destroy();
+
+    charts.hour = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(r => String(r.hour).padStart(2, '0') + ':00'),
+        datasets: [{
+          data: data.map(r => r.pv),
+          backgroundColor: gradient(ctx, 'rgba(34,211,238,0.7)', 'rgba(99,102,241,0.7)'),
+          borderRadius: 4,
+          barThickness: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { tooltip: { backgroundColor: '#1c1c36', padding: 10, cornerRadius: 8 } },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } },
+          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmt(v) } }
+        }
+      }
+    });
+  }
+
+  async function loadDevices() {
+    const data = await api('devices');
+    const ctx = document.getElementById('deviceChart').getContext('2d');
+    if (charts.device) charts.device.destroy();
+
+    charts.device = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+        labels: data.map(r => r.resolution),
+        datasets: [{
+          data: data.map(r => r.count),
+          backgroundColor: COLORS.map(c => c + '99'),
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true, position: 'right', labels: { usePointStyle: true, pointStyle: 'circle', padding: 8, font: { size: 11 } } },
+          tooltip: { backgroundColor: '#1c1c36', padding: 10, cornerRadius: 8 }
+        },
+        scales: { r: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { display: false } } }
+      }
+    });
+  }
+
+  // --- Load all ---
+  async function loadAll() {
+    await Promise.all([
+      loadOverview(),
+      loadTrend(),
+      loadPages(),
+      loadLanguages(),
+      loadReferrers(),
+      loadCategories(),
+      loadHourly(),
+      loadDevices(),
+    ]);
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }
+
+  // --- Day selector ---
+  document.querySelectorAll('.header-controls button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.header-controls button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDays = parseInt(btn.dataset.days, 10);
+      loadAll();
+    });
+  });
+
+  // --- Init ---
+  loadAll();
+})();
+</script>
+
+</body>
+</html>

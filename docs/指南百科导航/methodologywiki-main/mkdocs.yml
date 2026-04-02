@@ -1,0 +1,214 @@
+site_name: "Wisdom Wiki of Methodologies : Way To Success"
+site_description: "A knowledge base dedicated to systematically introducing, explaining, and applying various powerful methodologies, helping people on their path to success."
+site_author: "methodologywiki" # 您可以替换成您的名字
+
+site_url: https://methodologywiki.com/
+repo_url: https://github.com/mayunlei/methodologywiki
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  # logo: assets/logo.ico # 我们稍后可以添加一个logo
+  favicon: favicon.ico
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+extra:
+  analytics:
+    provider: google
+    property: G-VQ6RTZVF1S
+  extra_css:
+    - stylesheets/extra.css
+  extra_javascript:
+    - assets/js/calculators/roi-calculator.js
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: 中文
+      link: /zh/
+      lang: zh
+    - name: Español
+      link: /es/
+      lang: es
+    - name: 日本語
+      link: /ja/
+      lang: ja
+    - name: 한국어
+      link: /ko/
+      lang: ko
+    - name: Русский
+      link: /ru/
+      lang: ru
+    - name: Français
+      link: /fr/
+      lang: fr
+    - name: Deutsch
+      link: /de/
+      lang: de
+    - name: Português
+      link: /pt/
+      lang: pt
+    - name: Nederlands
+      link: /nl/
+      lang: nl
+    - name: Tiếng Việt
+      link: /vi/
+      lang: vi
+    - name: Svenska
+      link: /sv/
+      lang: sv
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - footnotes
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mermaid2:
+      version: 10.0.2
+  - rss:
+      match_path: .*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+  - git-revision-date-localized:
+      type: date
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+
+nav:
+  - "Home": "index.md"
+  - "Foundations":
+      - "Basic Discipline":
+          - "Mixed Methods Research": "en/Foundations/basic_discipline/Mixed-Methods-Research-Tutorial-en.md"
+          - "Qualitative Research": "en/Foundations/basic_discipline/Qualitative-Research-Tutorial-en.md"
+          - "Quantitative Research": "en/Foundations/basic_discipline/Quantitative-Research-Tutorial-en.md"
+      - "Learning Methods":
+          - "Cornell Note Taking": "en/Foundations/learning_methods/Cornell-Note-Taking-Tutorial-en.md"
+          - "Feynman Technique": "en/Foundations/learning_methods/Feynman-Technique-Tutorial-en.md"
+      - "Logical Thinking":
+          - "First Principles Thinking": "en/Foundations/logical_thinking/First-Principles-Thinking-Tutorial-en.md"
+          - "Pyramid Principle": "en/Foundations/logical_thinking/Pyramid-Principle-Tutorial-en.md"
+      - "Scientific Inquiry Paradigm":
+          - "Correlational Research": "en/Foundations/scientific_inquiry_paradigm/Correlational-Research-Tutorial-en.md"
+          - "Descriptive Research": "en/Foundations/scientific_inquiry_paradigm/Descriptive-Research-Tutorial-en.md"
+          - "Experimental Research": "en/Foundations/scientific_inquiry_paradigm/Experimental-Research-Tutorial-en.md"
+      - "Systems Thinking":
+          - "Iceberg Model": "en/Foundations/systems_thinking/Iceberg-Model-Tutorial-en.md"
+          - "System Dynamics": "en/Foundations/systems_thinking/System-Dynamics-Tutorial-en.md"
+      - "Theory and Practice":
+          - "Action Research": "en/Foundations/theory_and_practice/Action-Research-Tutorial-en.md"
+          - "Grounded Theory": "en/Foundations/theory_and_practice/Grounded-Theory-Tutorial-en.md"
+  - "Strategy & Business":
+      - "Business Model":
+          - "Business Model Canvas": "en/Strategy & Business/business_model/Business-Model-Canvas-Tutorial-en.md"
+          - "Lean Canvas": "en/Strategy & Business/business_model/Lean-Canvas-Tutorial-en.md"
+      - "Quality and Operations":
+          - "Kaizen": "en/Strategy & Business/quality_and_operations/Kaizen-Tutorial-en.md"
+          - "Lean Operations": "en/Strategy & Business/quality_and_operations/Lean-Operations-Tutorial-en.md"
+          - "Six Sigma": "en/Strategy & Business/quality_and_operations/Six-Sigma-Tutorial-en.md"
+          - "Total Quality Management": "en/Strategy & Business/quality_and_operations/Total-Quality-Management-Tutorial-en.md"
+      - "Strategic Analysis":
+          - "PESTEL Analysis": "en/Strategy & Business/strategic_analysis/PESTEL-Analysis-Tutorial-en.md"
+          - "Porters Five Forces": "en/Strategy & Business/strategic_analysis/Porters-Five-Forces-Tutorial-en.md"
+          - "SWOT Analysis": "en/Strategy & Business/strategic_analysis/SWOT-Analysis-Tutorial-en.md"
+          - "Value Chain Analysis": "en/Strategy & Business/strategic_analysis/Value-Chain-Analysis-Tutorial-en.md"
+      - "Strategic Execution":
+          - "Balanced Scorecard": "en/Strategy & Business/strategic_execution/Balanced-Scorecard-Tutorial-en.md"
+          - "Blue Ocean Strategy": "en/Strategy & Business/strategic_execution/Blue-Ocean-Strategy-Tutorial-en.md"
+  - "Problem Solving & Decision Making":
+      - "Decision Making":
+          - "Cost Benefit Analysis": "en/Problem Solving & Decision Making/decision_making/Cost-Benefit-Analysis-Tutorial-en.md"
+          - "Decision Matrix": "en/Problem Solving & Decision Making/decision_making/Decision-Matrix-Tutorial-en.md"
+          - "Pareto Analysis": "en/Problem Solving & Decision Making/decision_making/Pareto-Analysis-Tutorial-en.md"
+      - "Ideation":
+          - "Brainstorming": "en/Problem Solving & Decision Making/ideation/Brainstorming-Tutorial-en.md"
+          - "Mind Mapping": "en/Problem Solving & Decision Making/ideation/Mind-Mapping-Tutorial-en.md"
+          - "Six Thinking Hats": "en/Problem Solving & Decision Making/ideation/Six-Thinking-Hats-Tutorial-en.md"
+      - "Problem Solving":
+          - "Fishbone Diagram": "en/Problem Solving & Decision Making/problem_solving/Fishbone-Diagram-Tutorial-en.md"
+          - "Five Whys": "en/Problem Solving & Decision Making/problem_solving/Five-Whys-Tutorial-en.md"
+          - "Gap Analysis": "en/Problem Solving & Decision Making/problem_solving/Gap-Analysis-Tutorial-en.md"
+          - "Gemba Walk": "en/Problem Solving & Decision Making/problem_solving/Gemba-Walk-Tutorial-en.md"
+          - "Logic Tree": "en/Problem Solving & Decision Making/problem_solving/Logic-Tree-Tutorial-en.md"
+          - "Problem Solving": "en/Problem Solving & Decision Making/problem_solving/Problem-Solving-en.md"
+          - "Six Thinking Hats": "en/Problem Solving & Decision Making/problem_solving/Six-Thinking-Hats-Tutorial-en.md"
+      - "Root Cause Analysis":
+          - "5 Whys": "en/Problem Solving & Decision Making/root_cause_analysis/5-Whys-Tutorial-en.md"
+          - "Fishbone Diagram": "en/Problem Solving & Decision Making/root_cause_analysis/Fishbone-Diagram-Tutorial-en.md"
+  - "Product & User":
+      - "Product Development":
+          - "Agile": "en/Product & User/product_development/Agile-Tutorial-en.md"
+          - "Agile ROI Calculator": "en/Product & User/product_development/Agile-ROI-Calculator.md"
+          - "Hybrid Project Management": "en/Product & User/product_development/Hybrid-Project-Management-Playbook-en.md"
+          - "Design Thinking": "en/Product & User/product_development/Design-Thinking-Tutorial-en.md"
+          - "Kanban": "en/Product & User/product_development/Kanban-Tutorial-en.md"
+          - "Scrum": "en/Product & User/product_development/Scrum-Tutorial-en.md"
+      - "Specialized Qualitative Methods":
+          - "Case Study": "en/Product & User/specialized_qualitative_methods/Case-Study-Tutorial-en.md"
+          - "Ethnography": "en/Product & User/specialized_qualitative_methods/Ethnography-Tutorial-en.md"
+      - "Testing and Validation":
+          - "A/B Testing": "en/Product & User/testing_and_validation/AB-Testing-Tutorial-en.md"
+          - "MVP": "en/Product & User/testing_and_validation/MVP-Tutorial-en.md"
+          - "Usability Testing": "en/Product & User/testing_and_validation/Usability-Testing-Tutorial-en.md"
+      - "Time Dimension Design":
+          - "Cross-Sectional Research": "en/Product & User/time_dimension_design/Cross-Sectional-Research-Tutorial-en.md"
+          - "Longitudinal Research": "en/Product & User/time_dimension_design/Longitudinal-Research-Tutorial-en.md"
+      - "User Research":
+          - "Empathy Map": "en/Product & User/user_research/Empathy-Map-Tutorial-en.md"
+          - "User Journey Map": "en/Product & User/user_research/User-Journey-Map-Tutorial-en.md"
+          - "User Persona": "en/Product & User/user_research/User-Persona-Tutorial-en.md"
+  - "Personal & Team Productivity":
+      - "Feedback Techniques":
+          - "SBI Feedback Model": "en/Personal & Team Productivity/feedback_techniques/SBI-Feedback-Model-Tutorial-en.md"
+      - "Goal Management":
+          - "KPI": "en/Personal & Team Productivity/goal_management/KPI-Tutorial-en.md"
+          - "OKR": "en/Personal & Team Productivity/goal_management/OKR-Tutorial-en.md"
+          - "SMART Goals": "en/Personal & Team Productivity/goal_management/SMART-Goals-Tutorial-en.md"
+      - "Habit Formation":
+          - "The Habit Loop": "en/Personal & Team Productivity/habit_formation/The-Habit-Loop-Tutorial-en.md"
+          - "Tiny Habits": "en/Personal & Team Productivity/habit_formation/Tiny-Habits-Tutorial-en.md"
+      - "Meeting Effectiveness":
+          - "ORID Focused Conversation": "en/Personal & Team Productivity/meeting_effectiveness/ORID-Focused-Conversation-Tutorial-en.md"
+      - "Team Collaboration":
+          - "RACI Matrix": "en/Personal & Team Productivity/team_collaboration/RACI-Matrix-Tutorial-en.md"
+      - "Time Management":
+          - "Eisenhower Matrix": "en/Personal & Team Productivity/time_management/Eisenhower-Matrix-Tutorial-en.md"
+          - "GTD": "en/Personal & Team Productivity/time_management/GTD-Tutorial-en.md"
+          - "Pomodoro Technique": "en/Personal & Team Productivity/time_management/Pomodoro-Technique-Tutorial-en.md"
+  - "Technology & Engineering":
+      - "DevOps": "en/Technology/DevOps/intro-to-devops-en.md"
+  - "Sustainability & ESG":
+      - "ESG Reporting": "en/Sustainability/intro-to-esg-reporting-en.md"
