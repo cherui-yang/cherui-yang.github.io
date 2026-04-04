@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "Plan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "Plan"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "指南百科导航/CS self learning/index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +113,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "指南百科导航/CS self learning/index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -142,7 +142,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md",
+                "file": "指南百科导航/CS self learning/index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -170,5 +170,34 @@
     }
   },
   "active": "8ba6618ec0cb20d0",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "exmple/自问0.md",
+    "exmple/Untitled.md",
+    "exmple/自问1.md",
+    "exmple/自问2.md",
+    "exmple/自问.md",
+    "语言/Markdown/markdown-cheat-sheet.md",
+    "语言/Markdown/markdown-cheat-sheet.md.crdownload",
+    "exmple/知识自检.md",
+    "指南百科导航/嵌入式/前言.md",
+    "指南百科导航/嵌入式/Untitled.md",
+    "指南百科导航/CS self learning/index.md",
+    "exmple/Cornell (copy).md",
+    "指南百科导航/CS self learning/必学工具/翻墙.md",
+    "指南百科导航/CS self learning/必学工具/CMake.md",
+    "语言/Latex/Latex.md",
+    "语言/自然语言",
+    "工具/draw.io.md",
+    "工具/Anki.md",
+    "语言/Markdown/Markdown in Typora.md",
+    "工具/Git.md",
+    "工具/Obsidian.md",
+    "待分类/高等代数(丘砖)/前言.md",
+    "待分类/工程数学分析习题集/工科数学分析习题集(根据2006年俄文版翻译) (Б.Д.吉米多维奇(Борис Павлович Демидович), 林武忠等译) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "2026-04-03.md",
+    "exmple/Cornell.md",
+    "待分类/高等代数(丘砖)/Untitled.md",
+    "待分类/高等代数(丘砖)/未命名.md",
+    "index.md"
+  ]
 }
