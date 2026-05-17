@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "大方向/新材料（含高端新材料）.md",
+                "file": "大方向/新一代信息技术（含6G、量子科技、集成电路）.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "新材料（含高端新材料）"
+              "title": "新一代信息技术（含6G、量子科技、集成电路）"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "大方向/新材料（含高端新材料）.md",
+                "file": "大方向/新一代信息技术（含6G、量子科技、集成电路）.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "新材料（含高端新材料） 的反向链接列表"
+              "title": "新一代信息技术（含6G、量子科技、集成电路） 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "大方向/新材料（含高端新材料）.md",
+                "file": "大方向/新一代信息技术（含6G、量子科技、集成电路）.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "新材料（含高端新材料） 的出链列表"
+              "title": "新一代信息技术（含6G、量子科技、集成电路） 的出链列表"
             }
           },
           {
@@ -171,6 +171,7 @@
   },
   "active": "e3dc5252e59d02f3",
   "lastOpenFiles": [
+    "大方向/新材料（含高端新材料）.md",
     "大方向/新一代信息技术（含6G、量子科技、集成电路）.md",
     "专业/机械工程.md",
     "大方向/专业/物理学.md",
@@ -197,7 +198,6 @@
     "大方向/专业/网络工程.md",
     "大方向/专业/给排水科学与工程.md",
     "大方向/专业/精细化工.md",
-    "大方向/专业/电子信息科学与技术.md",
     "大方向/专业",
     "英语（师范/经贸",
     "英语（师范",
