@@ -1,3 +1,5 @@
 {
-  "promptDelete": false
+  "promptDelete": true,
+  "alwaysUpdateLinks": false,
+  "newLinkFormat": "shortest"
 }
