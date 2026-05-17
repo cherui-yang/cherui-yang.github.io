@@ -1,5 +1,10 @@
 mkdocs serve
 
+git add mkdocs.yml
+git commit -m "Add autorefs plugin to fix internal links"
+git push
+
+
 git add .
 git commit -m "描述本次更新"
 git push
