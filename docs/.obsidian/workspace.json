@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "语言/Markdown/Markdown in Typora.md",
+                "file": "exmple/自问0.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Markdown in Typora"
+              "title": "自问0"
             }
           }
         ]
@@ -171,6 +171,10 @@
   },
   "active": "8ba6618ec0cb20d0",
   "lastOpenFiles": [
+    "exmple/自问1.md",
+    "exmple/自问0.md",
+    "exmple/自问.md",
+    "语言/Markdown/Markdown in Typora.md",
     "draft/Plan.md",
     "index.md",
     "AI脚本指令.md",
@@ -196,10 +200,6 @@
     "指南百科导航/CS self learning/使用指南.md",
     "指南百科导航/CS self learning/CS学习规划.md",
     "Plan.md",
-    "指南百科导航/大数据指南/notes/SparkSQL联结操作.md",
-    "指南百科导航/大数据指南/notes/HDFS-Java-API.md",
-    "指南百科导航/大数据指南/notes/Flink_Data_Transformation.md",
-    "指南百科导航/大数据指南/notes/Flink核心概念综述.md",
     "指南百科导航/大数据指南/pictures/大数据技术栈思维导图.png",
     "指南百科导航/大数据指南/resources/txt/dept.txt",
     "指南百科导航/大数据指南/resources/tsv/emp.tsv",
