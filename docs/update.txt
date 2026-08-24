@@ -8,3 +8,7 @@ git push
 git add .
 git commit -m "描述本次更新"
 git push
+
+git add .
+git commit -m "更新博客内容"
+git push origin master

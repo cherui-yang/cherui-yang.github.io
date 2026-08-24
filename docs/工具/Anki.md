@@ -1,1 +1,0 @@
-[介绍 - Anki 手册](https://open-spaced-repetition.github.io/anki-manual-zh-CN/intro.html)

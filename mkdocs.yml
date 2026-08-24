@@ -1,4 +1,4 @@
-site_name: GDUPT-s-CheriY
+site_name: CheriY's blog
 site_url: https://cherui-yang.github.io/my-blog/
 theme:
   name: material
@@ -31,3 +31,14 @@ markdown_extensions:
 extra_javascript:
   - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - copy_md:
+      source_dir: docs/geogebra
+      target_dir: geogebra
+      # 你可以根据需要调整文件类型匹配规则
+      # 如果希望复制所有 .html 文件，可以不加 extensions 参数
